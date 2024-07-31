@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rok Baber Sza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css" /> 
+  </head>
+  <body>
+    <main>
+      <p class="game-title">Rock Paper Scissor</p>
+      <p class="game">
+        <button onclick="getPlayerMove('rock',comp);"><img src="https://media.tenor.com/fajm0GvKOU4AAAAM/sus.gif" alt=""></button>
+        <button onclick="getPlayerMove('paper',comp);"><img src="https://i.pinimg.com/564x/a9/8d/28/a98d283d5644e113a1ce1851f20badec.jpg" alt=""></button>
+        <button onclick="getPlayerMove('scissor',comp);"><img src="https://e7.pngegg.com/pngimages/89/210/png-clipart-scissors-child-meme-scissors-technic-school-supplies.png" alt=""></button>
+      </p>
+      <p class="js-result"></p>
+      <p class="js-moves"></p>
+      <p class="js-score"><span class="js-win"></span><span class="js-lose"></span><span class="js-tie"></span></p>
+    </main>
+    <script>
+      let user = '';
+      let comp = '';
+      let result = '';
+
+      let imgPlayer = '';
+      let imgComp = '';
+
+      let tie = localStorage.getItem('tie') || 0;
+      let win = localStorage.getItem('win') || 0;
+      let lose = localStorage.getItem('lose') || 0;
+
+      displayResult();
+
+      function getComp(comp) {
+        comp = Math.floor(Math.random() * 3);
+        if (comp == 0)  {
+          comp = 'rock';
+          imgComp = 'https://media.tenor.com/fajm0GvKOU4AAAAM/sus.gif';
+        }
+        else if (comp == 1) {
+          comp = 'paper';
+          imgComp = 'https://i.pinimg.com/564x/a9/8d/28/a98d283d5644e113a1ce1851f20badec.jpg'
+        }
+        else  {
+          comp = 'scissor';
+          imgComp = 'https://e7.pngegg.com/pngimages/89/210/png-clipart-scissors-child-meme-scissors-technic-school-supplies.png';
+        }
+        return comp;
+      }
+
+      function getImgUrl(user)  {
+        if (user === 'rock')
+          imgPlayer = 'https://media.tenor.com/fajm0GvKOU4AAAAM/sus.gif';
+        else if (user === 'paper')
+          imgPlayer = 'https://i.pinimg.com/564x/a9/8d/28/a98d283d5644e113a1ce1851f20badec.jpg';
+        else 
+          imgPlayer = 'https://e7.pngegg.com/pngimages/89/210/png-clipart-scissors-child-meme-scissors-technic-school-supplies.png';
+        return imgPlayer;
+      }
+
+      function getPlayerMove(user,comp) {
+        comp = getComp(comp);
+        imgPlayer = getImgUrl(user);
+        console.log(`Player picked ${user}`);
+        console.log(`Computer picked ${comp}`);
+        document.querySelector('.js-moves').innerHTML = `
+        You <img src="${imgPlayer}"> <img src="${imgComp}"> Computer
+        `;
+        if (user === comp) {
+          tie++;
+          localStorage.setItem("tie", tie);
+          result = "Draw";
+        }
+        else if 
+          ( user === 'rock' && comp === 'scissor' ||
+            user === 'paper' && comp === 'rock' ||
+            user === 'scissor' && comp === 'paper'
+          ) {
+          win++;
+          localStorage.setItem("win", win);
+          result = 'You win';
+        }
+        else {
+          lose++;
+          localStorage.setItem("lose", lose);
+          result = 'You Lose';
+        }
+        displayResult();
+      }
+
+      function displayResult() {
+        document.querySelector('.js-result').innerHTML = result;
+        document.querySelector('.js-win').innerHTML = `Wins: ${win}, `;
+        document.querySelector('.js-lose').innerHTML = `Losses: ${lose}, `;
+        document.querySelector('.js-tie').innerHTML = `Ties: ${tie}`;
+      }
+    </script>
+  </body>
+</html>

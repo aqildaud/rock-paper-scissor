@@ -1,1 +1,1 @@
-# rock-paper-scissor
+Exercise for javascript course

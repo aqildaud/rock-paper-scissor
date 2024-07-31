@@ -1,1 +1,1 @@
-Exercise for javascript course
+Exercise 2 for javascript course
